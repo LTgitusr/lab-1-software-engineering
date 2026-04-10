@@ -14,11 +14,12 @@ public class UsersApp
 
         while (scanner.hasNextLine())
         {
+            //tokenizing each line into a username and a password
             String line = scanner.nextLine().trim();
             String[] parts = line.split("\\s+");
             String username = parts[0];
             String password = parts[1];
-
+            //making sure the users are valid else there's an exception thrown
             try
             {
                 User user = new User(username, password);
@@ -30,8 +31,9 @@ public class UsersApp
             }
         }
         scanner.close();
+        //sorting all usernames alphabetically
         Collections.sort(users, (u1, u2) -> u1.getUsername().compareToIgnoreCase(u2.getUsername()));
-
+        //printing all valid users + their passwords (sorted)
         for(User user : users)
         {
             System.out.println(user);
