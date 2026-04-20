@@ -39,7 +39,7 @@ public class UsersApp
         try
         {
             FileWriter fileOutput = new FileWriter("out.txt");
-            //concatanting all valid users + their passwords (sorted)
+            //concatenating all valid users + their passwords (sorted)
             for(User user : users)
             {
                 fileOutput.append(user.toString()).append("\n");
