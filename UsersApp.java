@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,10 +35,22 @@ public class UsersApp
         scanner.close();
         //sorting all usernames alphabetically
         Collections.sort(users, (u1, u2) -> u1.getUsername().compareToIgnoreCase(u2.getUsername()));
-        //printing all valid users + their passwords (sorted)
-        for(User user : users)
+        //Write Users to File
+        try
         {
-            System.out.println(user);
+            FileWriter fileOutput = new FileWriter("out.txt");
+            //concatenating all valid users + their passwords (sorted)
+            for(User user : users)
+            {
+                fileOutput.append(user.toString()).append("\n");
+            }
+
+            fileOutput.flush();
+            fileOutput.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("Writing to out.txt failed!");
         }
     }
 }
