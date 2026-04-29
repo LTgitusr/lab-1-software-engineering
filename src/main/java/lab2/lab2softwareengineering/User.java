@@ -60,6 +60,10 @@ public class User
     {
         return username;
     }
+    public String getPassword()
+    {
+        return password;
+    }
     //toString override for printing the valid usernames with their passwords
     @Override
     public String toString()
