@@ -1,4 +1,4 @@
-package lab2.lab2softwareengineering;
+package lab2.lab2softwareengineering.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
