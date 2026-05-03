@@ -14,7 +14,7 @@ public class UsersApp
         users = new ArrayList<>();
         readUsers(filename);
     }
-
+    //method for reading users from a file and saving them in the class's user list
     private void readUsers(String filename)
     {
         try
@@ -47,7 +47,7 @@ public class UsersApp
             System.out.println("file not found");
         }
     }
-
+    //boolean method for checking if the username and the password entered are matching
     public boolean isValid(String username, String password)
     {
         for (User user : users)

@@ -7,7 +7,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import lab2.lab2softwareengineering.UsersApp;
-import lab2.lab2softwareengineering.Utilities.switchScenes;
+import lab2.lab2softwareengineering.Utilities.SwitchScenes;
 
 import java.io.IOException;
 
@@ -23,7 +23,7 @@ public class LoginController {
     private TextField usernameField;
 
     private UsersApp usersApp;
-
+    //creates the user list and clears the error message
     @FXML
     public void initialize()
     {
@@ -34,14 +34,15 @@ public class LoginController {
     @FXML
     void onLoginButtonClick(ActionEvent event)
     {
+        //gets the username and password entered
         String username = usernameField.getText();
         String password = passwordField.getText();
-
+        //checks whether the  username and password match: if they do, a welcome scene appears, else, an error message appears
         if(usersApp.isValid(username, password))
         {
             try
             {
-                switchScenes.switchScene(usernameField, "welcome.fxml");
+                SwitchScenes.switchScene(usernameField, "welcome.fxml");
             }
             catch(IOException e)
             {
