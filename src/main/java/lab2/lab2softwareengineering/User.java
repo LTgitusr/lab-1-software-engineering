@@ -4,6 +4,8 @@ public class User
 {
     private String username;
     private String password;
+    private int failedLoginAttempts;
+    private boolean blocked;
     //constructor
     public User(String username, String password)
     {
@@ -11,6 +13,8 @@ public class User
         checkPassword(password);
         this.username = username;
         this.password = password;
+        this.failedLoginAttempts = 0;
+        this.blocked = false;
     }
     //username validity check: limiting to under 50 characters and the specified structure
     private void checkUsername(String username)
@@ -64,6 +68,19 @@ public class User
     {
         return password;
     }
+
+    public synchronized boolean isBlocked() { return blocked; }
+    public synchronized void block() { blocked = true; }
+    public synchronized void unblock()
+    {
+        blocked = false;
+        failedLoginAttempts = 0;
+    }
+
+    public synchronized int getFailedLoginAttempts() { return failedLoginAttempts; }
+    public synchronized void addFailedAttempt() { failedLoginAttempts++; }
+    public synchronized void resetFailedLoginAttempts() { failedLoginAttempts = 0; }
+
     //toString override for printing the valid usernames with their passwords
     @Override
     public String toString()
