@@ -8,6 +8,8 @@ import javafx.scene.control.TextField;
 
 import lab2.lab2softwareengineering.UsersApp;
 import lab2.lab2softwareengineering.Utilities.SwitchScenes;
+import lab2.lab2softwareengineering.LoginStatus;
+import lab2.lab2softwareengineering.LoginApplication;
 
 import java.io.IOException;
 
@@ -27,7 +29,7 @@ public class LoginController {
     @FXML
     public void initialize()
     {
-        usersApp = new UsersApp("users.txt");
+        usersApp = new UsersApp("users.txt", LoginApplication.getMaxFailedLoginAttempts(), LoginApplication.getLoginTimeout());
         errorLabel.setText("");
     }
 
@@ -37,8 +39,8 @@ public class LoginController {
         //gets the username and password entered
         String username = usernameField.getText();
         String password = passwordField.getText();
-        //checks whether the  username and password match: if they do, a welcome scene appears, else, an error message appears
-        if(usersApp.isValid(username, password))
+        LoginStatus status = usersApp.login(username, password);
+        if(status == LoginStatus.VALID)
         {
             try
             {
@@ -46,9 +48,11 @@ public class LoginController {
             }
             catch(IOException e)
             {
-                errorLabel.setText("Couldn't load the next screen");
+                errorLabel.setText("Failed to load the next screen");
             }
         }
+        else if(status == LoginStatus.BLOCKED)
+            errorLabel.setText("Too many failed login attempts. Please try again later.");
         else
             errorLabel.setText("user or password do not match");
     }
