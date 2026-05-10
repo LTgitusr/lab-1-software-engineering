@@ -25,7 +25,7 @@ public class LoginController {
     private TextField usernameField;
 
     private UsersApp usersApp;
-    //creates the user list and clears the error message
+    //gets the runtime parameters, creates the user list and clears the error message
     @FXML
     public void initialize()
     {
@@ -39,7 +39,9 @@ public class LoginController {
         //gets the username and password entered
         String username = usernameField.getText();
         String password = passwordField.getText();
+        //gets login status
         LoginStatus status = usersApp.login(username, password);
+        //switches to welcome screen if the login info is valid and the user isn't blocked, otherwise - displays error message
         if(status == LoginStatus.VALID)
         {
             try

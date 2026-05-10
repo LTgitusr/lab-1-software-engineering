@@ -68,17 +68,21 @@ public class User
     {
         return password;
     }
-
+    //method for checking if the user is blocked - thread safe
     public synchronized boolean isBlocked() { return blocked; }
+    //method for blocking the user - thread safe
     public synchronized void block() { blocked = true; }
+    //method for unblocking the user and resetting the attempts as well - thread safe
     public synchronized void unblock()
     {
         blocked = false;
         failedLoginAttempts = 0;
     }
-
+    //getter for failed login attempts - thread safe
     public synchronized int getFailedLoginAttempts() { return failedLoginAttempts; }
+    //method for updating the count of failed login attempts in a row - thread safe
     public synchronized void addFailedAttempt() { failedLoginAttempts++; }
+    //method for resetting the number of failed login attempts - thread safe
     public synchronized void resetFailedLoginAttempts() { failedLoginAttempts = 0; }
 
     //toString override for printing the valid usernames with their passwords

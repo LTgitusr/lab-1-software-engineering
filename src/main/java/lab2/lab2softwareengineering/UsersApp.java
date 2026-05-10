@@ -11,7 +11,7 @@ public class UsersApp
 
     private int maxFailedLogins;
     private int loginTimeout;
-
+    //constructor
     public UsersApp(String filename, int maxFailedLogins, int loginTimeout)
     {
         users = new ArrayList<>();
@@ -52,7 +52,7 @@ public class UsersApp
             System.out.println("file not found");
         }
     }
-
+    //method for finding a user in the saved list of users
     private User findUser(String username)
     {
         for (User user : users)
@@ -62,13 +62,15 @@ public class UsersApp
         }
         return null;
     }
-
+    //method for updating failed login attempts and indicating if the user is supposed to get blocked
     private boolean failedAttemptsUpdateThreaded(User user)
     {
+        //initializing a reference to a value(1 slot array) to allow changing the returned result
         final boolean[] gotBlocked = new boolean[1];
         Thread failedAttempt = new Thread(() ->
         {
            user.addFailedAttempt();
+           //blocks the user for the specified amount of seconds if the failed attempts reached the max
            if(user.getFailedLoginAttempts() >= maxFailedLogins)
            {
                user.block();
@@ -100,9 +102,10 @@ public class UsersApp
         }
         return gotBlocked[0];
     }
-
+    //method for checking if the user is currently blocked
     private boolean blockCheckThreaded(User user)
     {
+        //initializing a reference to a value(1 slot array) to allow changing the returned result
         final boolean[] blocked = new boolean[1];
         Thread blockCheck = new Thread(() ->
         {
@@ -119,24 +122,26 @@ public class UsersApp
         }
         return blocked[0];
     }
-
+    //method for logging in that returns a status of the login attempts after receiving the username and password entered
     public LoginStatus login(String username, String password)
     {
         User user = findUser(username);
-
+        //no user found means info is invalid
         if(user == null)
             return LoginStatus.INVALID;
-
+        //if password doesn't match the login is invalid and if the user also reached the attempt limit - login is blocked
         if(!user.getPassword().equals(password))
         {
             if(failedAttemptsUpdateThreaded(user))
                 return LoginStatus.BLOCKED;
             return LoginStatus.INVALID;
         }
+        //returns blocked status if the user is already in login timeout
         if(blockCheckThreaded(user))
         {
             return LoginStatus.BLOCKED;
         }
+        //if the password matches the username the attempt is valid and if so, we reset the number of failed login attempts
         user.resetFailedLoginAttempts();
         return LoginStatus.VALID;
     }
